@@ -4,7 +4,7 @@ from tqdm import tqdm
 
 SETTING = {
     'hash': '754a917a9c82f5247412006a5abe1c0eb76e1007',
-    'begin_digits': '529460',
+    'begin_digits': '529460', 
     'last_digits': '0758',
 }
 
