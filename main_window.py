@@ -28,37 +28,45 @@ class Window(QMainWindow):
         self.background.setGeometry(0, 0, 600, 400)
         self.background.setPixmap(QPixmap("background.jpg").scaled(600, 400))
         self.info = QLabel(self)
-        self.info.setText("Выберите начало карты")
-        self.info.setGeometry(225, 0, 500, 50)
+        self.info.setText("Известная часть карты: **** **** **** 0758")
+        self.info.setGeometry(150, 10, 300, 50)
+        self.info1 = QLabel(self)
+        self.info1.setText("Выберите BIN карты:")
+        self.info1.setGeometry(25, 60, 250, 100)
+        self.info2 = QLabel(self)
+        self.info2.setText("Выберите кол-во потоков:")
+        self.info2.setGeometry(25, 110, 250, 100)
+        self.info2.hide()
         self.progress = QProgressBar(self)
         self.progress.setValue(0)
-        self.progress.setGeometry(100, 230, 400, 50)
+        self.progress.setGeometry(115, 250, 400, 50)
         self.progress.hide()
         self.button_card = QPushButton('Найти карту', self)
-        self.button_card.setGeometry(200, 100, 200, 50)
+        self.button_card.setGeometry(200, 190, 200, 50)
         self.button_card.clicked.connect(self.find_card)
         self.button_card.hide()
         self.result = QLabel(self)
-        self.result.setGeometry(200, 150, 400, 100)
+        self.result.setGeometry(150, 250, 400, 200)
         self.pool_size = QtWidgets.QComboBox(self)
         self.pool_size.addItems([str(i) for i in range(1, 33)])
-        self.pool_size.setGeometry(200, 50, 200, 50)
+        self.pool_size.setGeometry(200, 135, 200, 50)
         self.pool_size.hide()
         self.number = QtWidgets.QComboBox(self)
         self.number.addItems(SETTING["begin_digits"])
-        self.number.setGeometry(200, 20, 200, 50)
+        self.number.setGeometry(200, 80, 200, 50)
         self.number.activated[str].connect(self.on_activated)
         self.graph = QPushButton('Построить график', self)
-        self.graph.setGeometry(200, 270, 200, 50)
+        self.graph.setGeometry(200, 245, 200, 50)
         self.graph.clicked.connect(self.show_graph)
         self.graph.hide()
         self.show()
 
     def on_activated(self, text: str) -> None:
-        """Функция выбора начала номера карты
+        """Функция выбора BIN карты
         """
         self.graph.hide()
         self.pool_size.show()
+        self.info2.show()
         try:
             self.number = int(re.findall('(\d+)', text)[0])
         except:
@@ -66,7 +74,7 @@ class Window(QMainWindow):
         self.pool_size.activated[str].connect(self.choose_pool)
 
     def choose_pool(self, text: str):
-        """Функция выбора кол-ва ядер
+        """Функция выбора кол-ва потоков
         """
         try:
             self.size = int(re.findall('(\d+)', text)[0])
@@ -94,6 +102,7 @@ class Window(QMainWindow):
             else:
                 self.result.setText('Не найдено')
                 self.progress.setValue(0)
+        self.progress.hide()
 
     def success(self, start: float, result: int):
         """Функция обновляет прогресс бар и выводит информацию о карте и времени поиска
