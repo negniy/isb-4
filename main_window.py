@@ -1,4 +1,5 @@
 import multiprocessing as mp
+import json
 import sys
 import time
 import re
@@ -11,11 +12,6 @@ from PyQt5.QtWidgets import (QApplication, QLabel, QMainWindow,
 from charting import charting
 from sec_functions import algorithm_luna, check_hash
 
-SETTING = {
-    'hash': '754a917a9c82f5247412006a5abe1c0eb76e1007',
-    'begin_digits': ['529460', '519998', '529025','5156451','522327','522329','523760','527652','528528','529158','529856','530176','531855','534133','518591','528154','526589','510144','532465','531456','531452','531963','534299','540989','530429','531866','534135','518640'],
-    'last_digits': '0758',
-}
 
 class Window(QMainWindow):
     def __init__(self) -> None:
@@ -128,6 +124,8 @@ class Window(QMainWindow):
 
 
 if __name__ == "__main__":
+    with open("setting.json", "r") as read_file:
+        SETTING = json.load(read_file)
     app = QApplication(sys.argv)
     window = Window()
     window.show()
