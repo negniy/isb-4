@@ -41,4 +41,4 @@ def algorithm_luna(card_number: str) -> bool:
     total_sum = sum(all_number)
     rem = total_sum % 10
     check_sum = 10 - rem if rem != 0 else 0
-    return True if check_sum == check else False
+    return check_sum == check
